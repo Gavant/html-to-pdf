@@ -1,18 +1,22 @@
 {
     "name": "html-to-pdf",
-    "version": "1.0.0",
-    "main": "./dist/tsc/main.js",
-    "types": "./dist/tsc/main.d.ts",
+    "version": "0.0.1",
+    "main": "./dist/main.js",
+    "types": "./dist/main.d.ts",
     "repository": "https://github.com/Gavant/html-to-pdf.git",
-    "author": "Adam Baker <bakerac4@gmail.com>",
+    "author": "Gavant Software",
     "license": "MIT",
     "devDependencies": {
+        "@types/aws-lambda": "^8.10.93",
+        "@types/node": "^17.0.23",
         "@typescript-eslint/eslint-plugin": "^5.16.0",
         "@typescript-eslint/parser": "^5.16.0",
+        "auto-changelog": "^2.4.0",
         "eslint": "^8.12.0",
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-prettier": "^4.0.0",
         "prettier": "^2.6.1",
+        "release-it": "^14.13.1",
         "typescript": "^4.6.3"
     },
     "scripts": {
@@ -21,6 +25,15 @@
         "lint": "eslint src/ --ext .js,.jsx,.ts,.tsx",
         "build": "tsc -p tsconfig.json",
         "clean": "rm -rf dist build",
-        "ts-node": "ts-node"
+        "ts-node": "ts-node",
+        "prepublishOnly": "npm run tsc"
+    },
+    "dependencies": {
+        "@aws-sdk/client-s3": "^3.56.0",
+        "chrome-aws-lambda": "^10.1.0",
+        "puppeteer-core": "^13.5.1"
+    },
+    "publishConfig": {
+        "access": "public"
     }
 }

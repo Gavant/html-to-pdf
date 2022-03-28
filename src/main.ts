@@ -1,10 +1,14 @@
-export const delayMillis = (delayMs: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, delayMs));
+import { APIGatewayProxyEventV2, APIGatewayProxyResultV2, Handler } from 'aws-lambda';
 
-export const greet = (name: string): string => `Hello ${name}`;
+import PdfGenerationRequestHandler from './requests/handler';
 
-export const foo = async (): Promise<boolean> => {
-    console.log(greet('World'));
-    await delayMillis(1000);
-    console.log('done');
-    return true;
+type ProxyHandler = Handler<APIGatewayProxyEventV2, APIGatewayProxyResultV2>;
+export const handler: ProxyHandler = async (event) => {
+    try {
+        const requestHandler = await new PdfGenerationRequestHandler(event).handleRequest();
+        return requestHandler.url;
+    } catch (err) {
+        console.log(err);
+        return err as string;
+    }
 };

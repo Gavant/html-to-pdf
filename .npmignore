@@ -5,12 +5,13 @@
 /tmp/
 .idea/*
 /docs/
+/tests/
 
 coverage
 *.log
 .gitlab-ci.yml
 
-package-lock.json
+yarn.lock
 /*.tgz
 /tmp*
 /mnt/
