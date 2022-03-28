@@ -26,7 +26,7 @@
         "build": "tsc -p tsconfig.json",
         "clean": "rm -rf dist build",
         "ts-node": "ts-node",
-        "prepublishOnly": "npm run tsc"
+        "prepublishOnly": "yarn build"
     },
     "dependencies": {
         "@aws-sdk/client-s3": "^3.56.0",
