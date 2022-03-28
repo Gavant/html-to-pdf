@@ -1,5 +1,4 @@
 {
-    "before:init": ["yarn build"],
     "npm": {
         "publish": true
     },
