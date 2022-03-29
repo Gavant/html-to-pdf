@@ -31,7 +31,8 @@
     "dependencies": {
         "@aws-sdk/client-s3": "^3.56.0",
         "chrome-aws-lambda": "^10.1.0",
-        "puppeteer-core": "^13.5.1"
+        "puppeteer-core": "^13.5.1",
+        "puppeteer-report": "^3.0.2"
     },
     "publishConfig": {
         "access": "public"

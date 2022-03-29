@@ -1,5 +1,6 @@
 import chromium from 'chrome-aws-lambda';
 import { PDFOptions } from 'puppeteer-core';
+import report from 'puppeteer-report';
 
 import PdfGenerationRequest from '../requests/request';
 
@@ -24,7 +25,7 @@ export default class PdfGenerationService {
         });
         const pdfFilePath = `/tmp/${pdfGenerationRequest.fileName}`;
         const options = { ...htmlToPdfPrintOptions, ...pdfGenerationRequest.pdfOptions };
-        await page.pdf({
+        await report.pdfPage(page, {
             path: pdfFilePath,
             ...options
         });
