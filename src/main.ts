@@ -2,11 +2,11 @@ import { APIGatewayProxyEventV2, APIGatewayProxyResultV2, Handler } from 'aws-la
 
 import PdfGenerationRequestHandler from './requests/handler';
 
-type ProxyHandler = Handler<APIGatewayProxyEventV2, APIGatewayProxyResultV2>;
-export const handler: ProxyHandler = async (event) => {
+type ProxyHandler<T> = Handler<APIGatewayProxyEventV2, APIGatewayProxyResultV2<T>>;
+export const handler: ProxyHandler<{ url: string }> = async (event) => {
     try {
         const requestHandler = await new PdfGenerationRequestHandler(event).handleRequest();
-        return requestHandler.url;
+        return requestHandler;
     } catch (err) {
         console.log(err);
         return err as string;
