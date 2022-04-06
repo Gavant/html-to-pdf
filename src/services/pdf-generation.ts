@@ -13,23 +13,29 @@ export default class PdfGenerationService {
         pdfGenerationRequest: PdfGenerationRequest,
         htmlToPdfPrintOptions: PDFOptions = DEFAULT_PRINT_OPTIONS
     ) {
+        console.log('Starting to generate PDF');
         const browser = await this.launchBrowser(pdfGenerationRequest);
+        console.log('Browser launched');
         const page = await browser.newPage();
 
         if (pdfGenerationRequest.cookies) {
             await page.setCookie(...pdfGenerationRequest.cookies);
+            console.log('Cookies set');
         }
 
         await page.goto(pdfGenerationRequest.url, {
             waitUntil: 'networkidle0'
         });
+        console.log(`Puppeteer visited page located at ${pdfGenerationRequest.url}`);
         const pdfFilePath = `/tmp/${pdfGenerationRequest.fileName}`;
         const options = { ...htmlToPdfPrintOptions, ...pdfGenerationRequest.pdfOptions };
         await report.pdfPage(page, {
             path: pdfFilePath,
             ...options
         });
+        console.log(`PDF generated`);
         await browser.close();
+        console.log(`Browser closed`);
         return pdfFilePath;
     }
 
