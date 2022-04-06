@@ -3,7 +3,6 @@ import { PDFOptions } from 'puppeteer-core';
 import report from 'puppeteer-report';
 
 import PdfGenerationRequest from '../requests/request';
-import PdfStorageRequest from '../requests/storage-request';
 
 const DEFAULT_PRINT_OPTIONS: PDFOptions = {
     printBackground: true,
