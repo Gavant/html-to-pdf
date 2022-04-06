@@ -3,6 +3,7 @@ import { PDFOptions } from 'puppeteer-core';
 import report from 'puppeteer-report';
 
 import PdfGenerationRequest from '../requests/request';
+import PdfStorageRequest from '../requests/storage-request';
 
 const DEFAULT_PRINT_OPTIONS: PDFOptions = {
     printBackground: true,
@@ -22,7 +23,7 @@ export default class PdfGenerationService {
             await page.setCookie(...pdfGenerationRequest.cookies);
             console.log('Cookies set');
         }
-
+        console.log(pdfGenerationRequest);
         await page.goto(pdfGenerationRequest.url, {
             waitUntil: 'networkidle0'
         });
