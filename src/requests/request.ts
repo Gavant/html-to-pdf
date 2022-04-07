@@ -23,16 +23,19 @@ export default class PdfGenerationRequest {
     cookies?: Protocol.Network.CookieParam[];
     pdfOptions?: Partial<PDFOptions>;
     browserOptions?: Partial<PDFRequestBrowserOptions>;
+    isPublic: boolean;
     constructor(
         url: string,
         fileName: string,
         cookies: Protocol.Network.CookieParam[],
-        options: PDFRequestOptions = { pdfOptions: {}, browserOptions: {} }
+        options: PDFRequestOptions = { pdfOptions: {}, browserOptions: {} },
+        isPublic: string
     ) {
         this.url = url;
         this.fileName = fileName;
         this.cookies = cookies;
         this.pdfOptions = options?.pdfOptions ?? {};
         this.browserOptions = options?.browserOptions ?? {};
+        this.isPublic = isPublic === "true";
     }
 }

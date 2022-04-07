@@ -6,6 +6,8 @@ import FileService from '../../services/file-service';
 
 export default class S3PdfStorageRequestAdapter {
     toPutObjectCommand(pdfStorageRequest: PdfStorageRequest) {
+        let isPublicString = 'no';
+        if (pdfStorageRequest.isPublic) isPublicString = 'yes';
         return new PutObjectCommand({
             Bucket: PDF_STORAGE_BUCKET_NAME,
             Key: `tmp/${pdfStorageRequest.fileName}`,
@@ -14,7 +16,7 @@ export default class S3PdfStorageRequestAdapter {
             ContentDisposition: 'attachment',
             CacheControl: 'no-cache',
             Metadata: pdfStorageRequest.metadata,
-            Tagging: 'public=yes'
+            Tagging: `public=${isPublicString}`
         });
     }
 }
