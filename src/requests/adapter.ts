@@ -14,11 +14,14 @@ export default class PdfGenerationRequestAdapter {
     }
 
     toPdfGenerationRequest() {
+        let isPublic = "false";
+        if (this.requestBody.hasOwnProperty("isPublic")) isPublic = this.requestBody.isPublic;
         return new PdfGenerationRequest(
             this.requestBody.url,
             this.fileName,
             this.requestBody.cookies,
-            this.requestBody.options
+            this.requestBody.options,
+            isPublic
         );
     }
 }
