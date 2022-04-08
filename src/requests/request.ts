@@ -19,16 +19,16 @@ type PDFRequestOptions = {
 };
 export default class PdfGenerationRequest {
     url: string;
-    path: string;
     fileName: string;
+    path?: string;
     cookies?: Protocol.Network.CookieParam[];
     pdfOptions?: Partial<PDFOptions>;
     browserOptions?: Partial<PDFRequestBrowserOptions>;
     constructor(
         url: string,
-        path: string,
         fileName: string,
-        cookies: Protocol.Network.CookieParam[],
+        path?: string,
+        cookies?: Protocol.Network.CookieParam[],
         options: PDFRequestOptions = { pdfOptions: {}, browserOptions: {} }
     ) {
         this.path = path ?? '/tmp';

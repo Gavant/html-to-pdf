@@ -16,6 +16,7 @@ export default class PdfGenerationRequestAdapter {
     toPdfGenerationRequest() {
         return new PdfGenerationRequest(
             this.requestBody.url,
+            this.requestBody.path,
             this.fileName,
             this.requestBody.cookies,
             this.requestBody.options
