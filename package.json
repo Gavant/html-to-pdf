@@ -36,5 +36,8 @@
     },
     "publishConfig": {
         "access": "public"
+    },
+    "volta": {
+        "node": "14.19.1"
     }
 }

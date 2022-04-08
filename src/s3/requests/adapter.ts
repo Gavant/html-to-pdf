@@ -14,7 +14,7 @@ export default class S3PdfStorageRequestAdapter {
             ContentDisposition: 'attachment',
             CacheControl: 'no-cache',
             Metadata: pdfStorageRequest.metadata,
-            Tagging: 'public=yes'
+            Tagging: 'public=no'
         });
     }
 }
