@@ -27,7 +27,7 @@ export default class PdfGenerationService {
             waitUntil: 'networkidle0'
         });
         console.log(`Puppeteer visited page located at ${pdfGenerationRequest.url}`);
-        const pdfFilePath = `/tmp/${pdfGenerationRequest.fileName}`;
+        const pdfFilePath = `${pdfGenerationRequest.path}/${pdfGenerationRequest.fileName}`;
         const options = { ...htmlToPdfPrintOptions, ...pdfGenerationRequest.pdfOptions };
         await report.pdfPage(page, {
             path: pdfFilePath,
