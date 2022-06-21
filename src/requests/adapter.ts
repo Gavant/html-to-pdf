@@ -17,7 +17,7 @@ export default class PdfGenerationRequestAdapter {
         return new PdfGenerationRequest(
             this.requestBody.url,
             this.requestBody.path,
-            this.requestBody.fileName,
+            this.fileName,
             this.requestBody.cookies,
             this.requestBody.options
         );
