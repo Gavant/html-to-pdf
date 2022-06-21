@@ -9,7 +9,7 @@ export default class PdfGenerationRequestAdapter {
     fileName: string;
     requestBody: any;
     constructor(event: APIGatewayProxyEventV2) {
-        this.fileName = `${randomFileName()}.pdf`;
+        this.fileName = event.body.fileName ?? `${randomFileName()}.pdf`;
         this.requestBody = event.body;
     }
 
