@@ -1,6 +1,6 @@
 {
     "name": "@gavant/html-to-pdf",
-    "version": "0.0.8",
+    "version": "0.0.9",
     "main": "./dist/main.js",
     "types": "./dist/main.d.ts",
     "repository": "https://github.com/Gavant/html-to-pdf.git",
