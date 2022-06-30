@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 
 import PdfGenerationRequestAdapter from '../../../src/requests/adapter';
 
-module('Unit | Requests | Adapter', function () {
+module('Unit | Requests | Request', function () {
     test('Filename can be passed in', function (assert) {
         const adapter = new PdfGenerationRequestAdapter({
             version: '1',

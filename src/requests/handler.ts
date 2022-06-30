@@ -15,14 +15,39 @@ export default class PdfGenerationRequestHandler {
         this.request = new PdfGenerationRequestAdapter(event).toPdfGenerationRequest();
     }
 
-    async handleRequest() {
+    /**
+     * Generates the pdf and returns the path to the file
+     *
+     * @return {*}
+     * @memberof PdfGenerationRequestHandler
+     */
+    async getPath() {
         const generatedPdfFilePath = await new PdfGenerationService().generate(this.request);
         console.log('PDF generated');
-        const pdfUrl = await new S3PdfStorageService().store(this.getPdfStorageRequest(generatedPdfFilePath));
+        return generatedPdfFilePath;
+    }
+
+    /**
+     * handle request for PDF by generating it and then storing it in S3
+     *
+     * @return {*}
+     * @memberof PdfGenerationRequestHandler
+     */
+    async handleRequest() {
+        const path = await this.getPath();
+        const storageRequest = this.getPdfStorageRequest(path);
+        const pdfUrl = await new S3PdfStorageService().store(storageRequest);
         console.log('Pdf stored on S3');
         return PdfGenerationResponseAdapter.toCreated(pdfUrl);
     }
 
+    /**
+     * Generate a new storage request for the pdf
+     *
+     * @param {string} pdfFilePath
+     * @return {*}
+     * @memberof PdfGenerationRequestHandler
+     */
     getPdfStorageRequest(pdfFilePath: string) {
         return new PdfStorageRequest(this.request?.fileName, pdfFilePath, {
             url: this.request?.url
