@@ -17,12 +17,13 @@ export default class S3PdfStorageService {
     }
 
     async store(pdfStorageRequest: PdfStorageRequest) {
-        if (!pdfStorageRequest.secure) {
+        const command = this.s3PdfStorageRequestAdapter?.toPutObjectCommand(pdfStorageRequest);
+        if (pdfStorageRequest.secure) {
             const url = await getSignedUrl(
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore gnarly type error on client - ignore for now
                 client,
-                this.s3PdfStorageRequestAdapter?.toPutObjectCommand(pdfStorageRequest),
+                command,
                 {
                     expiresIn: 3600
                 }
@@ -30,7 +31,7 @@ export default class S3PdfStorageService {
             console.log(url);
             return url;
         } else {
-            const result = await client.send(this.s3PdfStorageRequestAdapter?.toPutObjectCommand(pdfStorageRequest));
+            const result = await client.send(command);
             console.log(result);
             return `${s3BucketBaseUrl}/tmp/${pdfStorageRequest.fileName}`;
         }
