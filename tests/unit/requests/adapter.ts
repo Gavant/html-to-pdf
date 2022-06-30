@@ -12,7 +12,7 @@ module('Unit | Requests | Adapter', function () {
             pdfOptions: {},
             browserOptions: {}
         };
-        const request = new PdfGenerationRequest(url, fileName, path, cookies, options);
+        const request = new PdfGenerationRequest(url, fileName, path, true, cookies, options);
         assert.strictEqual(request.url, url);
         assert.strictEqual(request.fileName, fileName);
         assert.strictEqual(request.path, path);
