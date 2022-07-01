@@ -49,8 +49,14 @@ export default class PdfGenerationRequestHandler {
      * @memberof PdfGenerationRequestHandler
      */
     getPdfStorageRequest(pdfFilePath: string) {
-        return new PdfStorageRequest(this.request?.fileName, pdfFilePath, {
-            url: this.request?.url
+        return new PdfStorageRequest({
+            fileName: this.request.fileName,
+            filePath: pdfFilePath,
+            secure: this.request.secure,
+            options: this.request.storageOptions,
+            metadata: {
+                url: this.request?.url
+            }
         });
     }
 }
