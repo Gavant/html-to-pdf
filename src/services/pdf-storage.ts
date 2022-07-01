@@ -25,7 +25,7 @@ export default class S3PdfStorageService {
                 client,
                 command,
                 {
-                    expiresIn: 3600
+                    expiresIn: pdfStorageRequest.options?.expiresIn ?? 3600
                 }
             );
             console.log(url);

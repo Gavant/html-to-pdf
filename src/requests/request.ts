@@ -1,44 +1,25 @@
-import {
-    BrowserConnectOptions,
-    BrowserLaunchArgumentOptions,
-    LaunchOptions,
-    PDFOptions,
-    Product,
-    Protocol
-} from 'puppeteer-core';
+import { Protocol } from 'puppeteer-core';
 
-type PDFRequestBrowserOptions = LaunchOptions &
-    BrowserLaunchArgumentOptions &
-    BrowserConnectOptions & {
-        product?: Product;
-        extraPrefsFirefox?: Record<string, unknown>;
-    };
-type PDFRequestOptions = {
-    pdfOptions: Partial<PDFOptions>;
-    browserOptions: Partial<PDFRequestBrowserOptions>;
-};
+import { PdfGenerationRequestBody, PDFRequestOptions } from './adapter';
+
 export default class PdfGenerationRequest {
     url: string;
     fileName: string;
     secure: boolean;
     path: string;
     cookies?: Protocol.Network.CookieParam[];
-    pdfOptions?: Partial<PDFOptions>;
-    browserOptions?: Partial<PDFRequestBrowserOptions>;
-    constructor(
-        url: string,
-        fileName: string,
-        path?: string,
-        secure?: boolean,
-        cookies?: Protocol.Network.CookieParam[],
-        options: PDFRequestOptions = { pdfOptions: {}, browserOptions: {} }
-    ) {
-        this.url = url;
-        this.fileName = fileName;
-        this.path = path ?? '/tmp';
-        this.secure = secure ?? true;
-        this.cookies = cookies;
-        this.pdfOptions = options?.pdfOptions ?? {};
-        this.browserOptions = options?.browserOptions ?? {};
+    pdfOptions?: Partial<PDFRequestOptions['pdfOptions']>;
+    browserOptions?: Partial<PDFRequestOptions['browserOptions']>;
+    storageOptions?: Partial<PDFRequestOptions['storageOptions']>;
+
+    constructor(args: PdfGenerationRequestBody) {
+        this.url = args.url;
+        this.fileName = args.fileName;
+        this.path = args.path ?? '/tmp';
+        this.secure = args.secure ?? true;
+        this.cookies = args.cookies;
+        this.pdfOptions = args.options?.pdfOptions ?? {};
+        this.browserOptions = args.options?.browserOptions ?? {};
+        this.storageOptions = args.options?.storageOptions ?? {};
     }
 }

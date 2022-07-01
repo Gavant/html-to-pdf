@@ -9,6 +9,7 @@ module('Unit | Services | PdfGeneration', function () {
         const url = 'https://www.google.com';
         const fileName = 'test.pdf';
         const path = './';
+        const secure = true;
         const cookies: any[] = [];
         const options = {
             pdfOptions: {},
@@ -16,7 +17,14 @@ module('Unit | Services | PdfGeneration', function () {
                 headless: true
             }
         };
-        const request = new PdfGenerationRequest(url, fileName, path, true, cookies, options);
+        const request = new PdfGenerationRequest({
+            url,
+            fileName,
+            path,
+            secure,
+            cookies,
+            options
+        });
         const pdfUrl = await new PdfGenerationService().generate(request);
         assert.ok(pdfUrl, `PDF generated at url ${pdfUrl}`);
         assert.ok(fs.existsSync(pdfUrl), `PDF exists at url ${pdfUrl}`);
