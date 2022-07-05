@@ -1,4 +1,5 @@
 import { APIGatewayProxyEventV2 } from 'aws-lambda';
+import crypto from 'crypto';
 import {
     BrowserConnectOptions,
     BrowserLaunchArgumentOptions,
@@ -9,9 +10,6 @@ import {
 } from 'puppeteer-core';
 
 import PdfGenerationRequest from './request';
-
-const randomNumber = () => Math.round(Math.random() * Number.MAX_SAFE_INTEGER);
-const randomFileName = () => `${Date.now()}_${randomNumber()}`;
 
 export type PDFRequestBrowserOptions = LaunchOptions &
     BrowserLaunchArgumentOptions &
@@ -30,7 +28,7 @@ export type PDFRequestOptions = {
 export interface PdfGenerationRequestBody {
     url: string;
     fileName: string;
-    path: string;
+    path?: string;
     secure?: boolean;
     cookies?: Protocol.Network.CookieParam[];
     options: PDFRequestOptions;
@@ -40,7 +38,7 @@ export default class PdfGenerationRequestAdapter {
     requestBody: PdfGenerationRequestBody;
     constructor(event: APIGatewayProxyEventV2) {
         this.requestBody = event.body as unknown as PdfGenerationRequestBody;
-        this.fileName = this.requestBody?.fileName ?? `${randomFileName()}.pdf`;
+        this.fileName = this.requestBody?.fileName ?? `${crypto.randomUUID()}.pdf`;
     }
 
     toPdfGenerationRequest() {
