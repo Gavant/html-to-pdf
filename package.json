@@ -29,7 +29,7 @@
         "cli": "ts-node src/cli.ts",
         "test": "yarn build && qunit dist/tests/**/*.js",
         "lint": "eslint src/ --ext .js,.ts",
-        "build": "tsc -p tsconfig.json",
+        "build": "tsc -p tsconfig-build.json",
         "clean": "rm -rf dist build",
         "ts-node": "ts-node",
         "prepublishOnly": "yarn build"
