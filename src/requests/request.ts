@@ -1,6 +1,6 @@
-import crypto from 'crypto';
 import { Protocol } from 'puppeteer-core';
 
+import { DEFAULT_TEMP_PATH } from '../constants/pdf';
 import { PdfGenerationRequestBody, PDFRequestOptions } from './adapter';
 
 export default class PdfGenerationRequest {
@@ -16,7 +16,7 @@ export default class PdfGenerationRequest {
     constructor(args: PdfGenerationRequestBody) {
         this.url = args.url;
         this.fileName = args.fileName;
-        this.path = args.path ?? `/tmp/${crypto.randomUUID()}`;
+        this.path = args.path ?? DEFAULT_TEMP_PATH;
         this.secure = args.secure ?? true;
         this.cookies = args.cookies;
         this.pdfOptions = args.options?.pdfOptions ?? {};
