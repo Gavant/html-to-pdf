@@ -8,7 +8,6 @@ module('Unit | Services | PdfGeneration', function () {
     test('PDF Generated', async function (assert) {
         const url = 'https://www.google.com';
         const fileName = 'test.pdf';
-        const path = './';
         const secure = true;
         const cookies: any[] = [];
         const options = {
@@ -20,7 +19,6 @@ module('Unit | Services | PdfGeneration', function () {
         const request = new PdfGenerationRequest({
             url,
             fileName,
-            path,
             secure,
             cookies,
             options
