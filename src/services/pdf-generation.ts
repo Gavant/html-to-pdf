@@ -27,16 +27,15 @@ export default class PdfGenerationService {
             waitUntil: 'networkidle0'
         });
         console.log(`Puppeteer visited page located at ${pdfGenerationRequest.url}`);
-        const pdfFilePath = `${pdfGenerationRequest.path}/${pdfGenerationRequest.fileName}`;
         const options = { ...htmlToPdfPrintOptions, ...pdfGenerationRequest.pdfOptions };
         await report.pdfPage(page, {
-            path: pdfFilePath,
+            path: pdfGenerationRequest.localFilePath,
             ...options
         });
         console.log(`PDF generated`);
         await browser.close();
         console.log(`Browser closed`);
-        return pdfFilePath;
+        return pdfGenerationRequest.localFilePath;
     }
 
     async launchBrowser(pdfGenerationRequest: PdfGenerationRequest) {

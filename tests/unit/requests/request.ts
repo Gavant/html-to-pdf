@@ -4,7 +4,7 @@ import PdfGenerationRequestAdapter from '../../../src/requests/adapter';
 
 module('Unit | Requests | Request', function () {
     test('Filename can be passed in', function (assert) {
-        const adapter = new PdfGenerationRequestAdapter({
+        const request = new PdfGenerationRequestAdapter({
             version: '1',
             routeKey: '$default',
             rawPath: '/',
@@ -36,11 +36,7 @@ module('Unit | Requests | Request', function () {
                 cookies: [],
                 options: {}
             } as unknown as string
-        });
-
-        assert.strictEqual(adapter.fileName, 'test.pdf');
-
-        const request = adapter.toPdfGenerationRequest();
+        }).toPdfGenerationRequest();
 
         assert.strictEqual(request.fileName, 'test.pdf');
     });

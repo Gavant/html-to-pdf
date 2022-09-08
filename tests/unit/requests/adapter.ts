@@ -8,7 +8,6 @@ module('Unit | Requests | Adapter', function () {
         const url = 'https://www.google.com';
         const fileName = 'test.pdf';
         const secure = true;
-        const path = 'test';
         const cookies: any[] = [];
         const options: PDFRequestOptions = {
             pdfOptions: { timeout: 299 },
@@ -18,14 +17,12 @@ module('Unit | Requests | Adapter', function () {
         const request = new PdfGenerationRequest({
             url,
             fileName,
-            path,
             secure,
             cookies,
             options
         });
         assert.strictEqual(request.url, url);
         assert.strictEqual(request.fileName, fileName);
-        assert.strictEqual(request.path, path);
         assert.strictEqual(request.secure, secure);
         assert.strictEqual(request.cookies, cookies);
         assert.strictEqual(request.pdfOptions, options.pdfOptions);

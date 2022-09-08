@@ -8,8 +8,8 @@ export default class S3PdfStorageRequestAdapter {
     toPutObjectCommand(pdfStorageRequest: PdfStorageRequest) {
         return new PutObjectCommand({
             Bucket: PDF_STORAGE_BUCKET_NAME,
-            Key: `tmp/${pdfStorageRequest.fileName}`,
-            Body: FileService.getReadStream(pdfStorageRequest.filePath),
+            Key: `${pdfStorageRequest.storageFilePath}/${pdfStorageRequest.fileName}`,
+            Body: FileService.getReadStream(pdfStorageRequest.localFilePath),
             ContentType: 'application/pdf',
             ContentDisposition: 'attachment',
             CacheControl: 'no-cache',
