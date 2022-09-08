@@ -26,7 +26,7 @@ export type PDFRequestOptions = {
 
 export interface PdfGenerationRequestBody {
     url: string;
-    fileName: string;
+    fileName?: string;
     secure?: boolean;
     cookies?: Protocol.Network.CookieParam[];
     options: PDFRequestOptions;
