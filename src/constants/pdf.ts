@@ -1,1 +1,1 @@
-export const DEFAULT_TEMP_PATH = '/tmp/';
+export const DEFAULT_TEMP_PATH = 'tmp/';

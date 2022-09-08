@@ -6,10 +6,10 @@ import { PdfGenerationRequestBody, PDFRequestOptions } from './adapter';
 
 export default class PdfGenerationRequest {
     url: string;
-    fileName: string;
     localFileName: string;
     secure: boolean;
     path: string;
+    fileName?: string;
     cookies?: Protocol.Network.CookieParam[];
     pdfOptions?: Partial<PDFRequestOptions['pdfOptions']>;
     browserOptions?: Partial<PDFRequestOptions['browserOptions']>;
@@ -17,9 +17,9 @@ export default class PdfGenerationRequest {
 
     constructor(args: PdfGenerationRequestBody) {
         this.url = args.url;
-        this.fileName = args.fileName;
+        this.fileName = args.fileName ?? `${crypto.randomUUID()}.pdf`;
         this.localFileName = `${crypto.randomUUID()}.pdf`;
-        this.path = `${DEFAULT_TEMP_PATH}`;
+        this.path = `/${DEFAULT_TEMP_PATH}`;
         this.secure = args.secure ?? true;
         this.cookies = args.cookies;
         this.pdfOptions = args.options?.pdfOptions ?? {};
@@ -28,6 +28,6 @@ export default class PdfGenerationRequest {
     }
 
     get localFilePath() {
-        return `${this.path}/${this.localFileName}`;
+        return `${this.path}${this.localFileName}`;
     }
 }
