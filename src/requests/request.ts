@@ -19,7 +19,7 @@ export default class PdfGenerationRequest {
         this.url = args.url;
         this.fileName = args.fileName ?? `${crypto.randomUUID()}.pdf`;
         this.localFileName = `${crypto.randomUUID()}.pdf`;
-        this.path = `/${DEFAULT_TEMP_PATH}`;
+        this.path = args.path ? `${args.path}/` : `/${DEFAULT_TEMP_PATH}`;
         this.secure = args.secure ?? true;
         this.cookies = args.cookies;
         this.pdfOptions = args.options?.pdfOptions ?? {};
