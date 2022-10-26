@@ -14,14 +14,14 @@ module('Unit | Requests | Adapter', function () {
             browserOptions: { timeout: 299 },
             storageOptions: { expiresIn: 20 }
         };
-        const path = '/my-path/';
+        const storageFilePath = '/my-path/';
         const request = new PdfGenerationRequest({
             url,
             fileName,
             secure,
             cookies,
             options,
-            path
+            storageFilePath
         });
         assert.strictEqual(request.url, url);
         assert.strictEqual(request.fileName, fileName);
@@ -30,10 +30,10 @@ module('Unit | Requests | Adapter', function () {
         assert.strictEqual(request.pdfOptions, options.pdfOptions);
         assert.strictEqual(request.browserOptions, options.browserOptions);
         assert.strictEqual(request.storageOptions, options.storageOptions);
-        assert.strictEqual(request.path, path);
+        assert.strictEqual(request.storageFilePath, storageFilePath);
     });
 
-    test('Path defaults to /tmp/ when none is sent', function (assert) {
+    test('Storage file path defaults to /tmp/ when none is sent', function (assert) {
         const url = 'https://www.google.com';
         const fileName = 'test.pdf';
         const secure = true;

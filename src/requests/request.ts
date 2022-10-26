@@ -9,6 +9,7 @@ export default class PdfGenerationRequest {
     localFileName: string;
     secure: boolean;
     path: string;
+    storageFilePath: string;
     fileName?: string;
     cookies?: Protocol.Network.CookieParam[];
     pdfOptions?: Partial<PDFRequestOptions['pdfOptions']>;
@@ -19,7 +20,8 @@ export default class PdfGenerationRequest {
         this.url = args.url;
         this.fileName = args.fileName ?? `${crypto.randomUUID()}.pdf`;
         this.localFileName = `${crypto.randomUUID()}.pdf`;
-        this.path = args.path ?? `/${DEFAULT_TEMP_PATH}`;
+        this.path = `/${DEFAULT_TEMP_PATH}`;
+        this.storageFilePath = args.storageFilePath ?? `${DEFAULT_TEMP_PATH}${crypto.randomUUID()}`;
         this.secure = args.secure ?? true;
         this.cookies = args.cookies;
         this.pdfOptions = args.options?.pdfOptions ?? {};

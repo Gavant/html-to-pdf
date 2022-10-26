@@ -11,18 +11,20 @@ module('Unit | Requests | StorageRequest', function () {
         const options = {
             expiresIn: 20
         };
+        const storageFilePath = '/my/path';
         const request = new StorageRequest({
             fileName,
             localFilePath,
             secure,
             metadata,
-            options
+            options,
+            storageFilePath
         });
         assert.strictEqual(request.fileName, fileName);
         assert.strictEqual(request.localFilePath, localFilePath);
         assert.strictEqual(request.secure, secure);
         assert.strictEqual(request.metadata, metadata);
         assert.strictEqual(request.options, options);
-        assert.ok(request.storageFilePath);
+        assert.strictEqual(request.storageFilePath, storageFilePath);
     });
 });

@@ -54,6 +54,7 @@ export default class PdfGenerationRequestHandler {
             localFilePath: pdfFilePath,
             secure: this.request.secure,
             options: this.request.storageOptions,
+            storageFilePath: this.request.storageFilePath,
             metadata: {
                 url: this.request?.url
             }

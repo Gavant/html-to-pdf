@@ -27,7 +27,7 @@ export type PDFRequestOptions = {
 export interface PdfGenerationRequestBody {
     url: string;
     fileName?: string;
-    path?: string;
+    storageFilePath?: string;
     secure?: boolean;
     cookies?: Protocol.Network.CookieParam[];
     options: PDFRequestOptions;
@@ -45,7 +45,7 @@ export default class PdfGenerationRequestAdapter {
             secure: this.requestBody.secure,
             cookies: this.requestBody.cookies,
             options: this.requestBody.options,
-            path: this.requestBody.path
+            storageFilePath: this.requestBody.storageFilePath
         });
     }
 }
