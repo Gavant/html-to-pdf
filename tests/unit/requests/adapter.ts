@@ -14,7 +14,7 @@ module('Unit | Requests | Adapter', function () {
             browserOptions: { timeout: 299 },
             storageOptions: { expiresIn: 20 }
         };
-        const path = '/my-path';
+        const path = '/my-path/';
         const request = new PdfGenerationRequest({
             url,
             fileName,
@@ -30,7 +30,7 @@ module('Unit | Requests | Adapter', function () {
         assert.strictEqual(request.pdfOptions, options.pdfOptions);
         assert.strictEqual(request.browserOptions, options.browserOptions);
         assert.strictEqual(request.storageOptions, options.storageOptions);
-        assert.strictEqual(request.path, `${path}/`);
+        assert.strictEqual(request.path, path);
     });
 
     test('Path defaults to /tmp/ when none is sent', function (assert) {
@@ -50,13 +50,6 @@ module('Unit | Requests | Adapter', function () {
             cookies,
             options
         });
-        assert.strictEqual(request.url, url);
-        assert.strictEqual(request.fileName, fileName);
-        assert.strictEqual(request.secure, secure);
-        assert.strictEqual(request.cookies, cookies);
-        assert.strictEqual(request.pdfOptions, options.pdfOptions);
-        assert.strictEqual(request.browserOptions, options.browserOptions);
-        assert.strictEqual(request.storageOptions, options.storageOptions);
         assert.strictEqual(request.path, '/tmp/');
     });
 });
