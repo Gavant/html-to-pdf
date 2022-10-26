@@ -34,13 +34,15 @@ module('Unit | Services | PdfStorage', function () {
             expiresIn: 3600
         };
         const metadata = {};
+        const storageFilePath = '/my/path';
 
         const request = new PdfStorageRequest({
             fileName,
             secure,
             options,
             localFilePath,
-            metadata
+            metadata,
+            storageFilePath
         });
         const storageUrl = await new PdfGenerationStorage().store(request);
         assert.ok(pdfUrl, `PDF generated at url ${storageUrl}`);
@@ -76,13 +78,15 @@ module('Unit | Services | PdfStorage', function () {
             expiresIn: 3600
         };
         const metadata = {};
+        const storageFilePath = '/my/path';
 
         const request = new PdfStorageRequest({
             fileName,
             secure,
             options,
             localFilePath,
-            metadata
+            metadata,
+            storageFilePath
         });
         const storageUrl = await new PdfGenerationStorage().store(request);
         assert.ok(pdfUrl, `PDF generated at url ${storageUrl}`);
