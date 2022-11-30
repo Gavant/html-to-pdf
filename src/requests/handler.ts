@@ -38,7 +38,7 @@ export default class PdfGenerationRequestHandler {
         const storageRequest = this.getPdfStorageRequest(path);
         const pdfUrl = await new S3PdfStorageService().store(storageRequest);
         console.log('Pdf stored on S3');
-        return PdfGenerationResponseAdapter.toCreated(pdfUrl);
+        return PdfGenerationResponseAdapter.toCreated(pdfUrl, storageRequest);
     }
 
     /**
