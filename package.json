@@ -32,6 +32,7 @@
         "prepare": "yarn build",
         "cli": "ts-node src/cli.ts",
         "test": "tsc -p tsconfig.json && qunit dist/tests/unit/requests/**/*.js && qunit dist/tests/unit/services/pdf-generation.js",
+        "test-all": "tsc -p tsconfig.json && qunit dist/tests/**/*.js",
         "lint": "eslint src/ --ext .js,.ts",
         "build": "tsc -p tsconfig-build.json",
         "clean": "rm -rf dist build",
