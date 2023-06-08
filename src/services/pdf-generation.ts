@@ -24,7 +24,8 @@ export default class PdfGenerationService {
         }
         console.log(pdfGenerationRequest);
         await page.goto(pdfGenerationRequest.url, {
-            waitUntil: 'networkidle0'
+            waitUntil: 'networkidle0',
+            ...pdfGenerationRequest.pdfOptions
         });
         console.log(`Puppeteer visited page located at ${pdfGenerationRequest.url}`);
         const options = { ...htmlToPdfPrintOptions, ...pdfGenerationRequest.pdfOptions };
