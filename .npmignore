@@ -10,6 +10,7 @@
 coverage
 *.log
 .gitlab-ci.yml
+.yarn
 
 yarn.lock
 /*.tgz
