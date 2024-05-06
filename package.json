@@ -50,6 +50,7 @@
         "access": "public"
     },
     "volta": {
-        "node": "18.16.0"
+        "node": "18.16.0",
+        "yarn": "3.6.4"
     }
 }
