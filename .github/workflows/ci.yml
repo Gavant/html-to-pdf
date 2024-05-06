@@ -23,7 +23,7 @@ jobs:
                   node-version: 18.x
                   yarn-version: 1.x
             - name: Install Dependencies
-              run: yarn install --frozen-lockfile
+              run: yarn install
             - name: Lint
               run: yarn lint
             - name: Run Tests
