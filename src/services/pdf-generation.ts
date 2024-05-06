@@ -30,7 +30,7 @@ export default class PdfGenerationService {
         });
         console.log(`Puppeteer visited page located at ${pdfGenerationRequest.url}`);
         const options = { ...htmlToPdfPrintOptions, ...pdfGenerationRequest.pdfOptions };
-        await report.pdfPage(page, {
+        await report.pdfPage(page as any, {
             path: pdfGenerationRequest.localFilePath,
             ...options
         });
