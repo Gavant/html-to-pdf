@@ -1,6 +1,6 @@
 {
     "name": "@gavant/html-to-pdf",
-    "version": "0.0.22",
+    "version": "0.1.0",
     "main": "./dist/main.js",
     "exports": {
         ".": "./dist/main.js",
