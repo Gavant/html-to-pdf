@@ -1,6 +1,7 @@
-import chromium from 'chrome-aws-lambda';
-import { PDFOptions } from 'puppeteer-core';
+import puppeteer, { PDFOptions } from 'puppeteer-core';
 import report from 'puppeteer-report';
+
+import chromium from '@sparticuz/chromium';
 
 import PdfGenerationRequest from '../requests/request';
 
@@ -29,7 +30,7 @@ export default class PdfGenerationService {
         });
         console.log(`Puppeteer visited page located at ${pdfGenerationRequest.url}`);
         const options = { ...htmlToPdfPrintOptions, ...pdfGenerationRequest.pdfOptions };
-        await report.pdfPage(page, {
+        await report.pdfPage(page as any, {
             path: pdfGenerationRequest.localFilePath,
             ...options
         });
@@ -40,13 +41,14 @@ export default class PdfGenerationService {
     }
 
     async launchBrowser(pdfGenerationRequest: PdfGenerationRequest) {
-        return await chromium.puppeteer.launch({
+        const chromiumPath = await chromium.executablePath();
+        const options = {
             args: chromium.args,
-            defaultViewport: null,
-            executablePath: await chromium.executablePath,
-            headless: chromium.headless,
-            ignoreHTTPSErrors: true,
+            executablePath: chromiumPath,
+            headless: !!process?.env?.BROWSER_HEADLESS === false ? false : true,
             ...pdfGenerationRequest.browserOptions
-        });
+        };
+
+        return await puppeteer.launch(options);
     }
 }

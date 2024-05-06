@@ -42,7 +42,7 @@
     "dependencies": {
         "@aws-sdk/client-s3": "^3.56.0",
         "@aws-sdk/s3-request-presigner": "^3.120.0",
-        "chrome-aws-lambda": "^10.1.0",
+        "@sparticuz/chromium": "122",
         "puppeteer-core": "^13.5.1",
         "puppeteer-report": "^3.0.2"
     },
@@ -50,6 +50,7 @@
         "access": "public"
     },
     "volta": {
-        "node": "14.19.1"
+        "node": "18.16.0",
+        "yarn": "3.6.4"
     }
 }
