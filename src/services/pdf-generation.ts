@@ -1,4 +1,3 @@
-import { executablePath } from 'puppeteer';
 import puppeteer, { PDFOptions } from 'puppeteer-core';
 import report from 'puppeteer-report';
 
@@ -42,15 +41,18 @@ export default class PdfGenerationService {
     }
 
     async launchBrowser(pdfGenerationRequest: PdfGenerationRequest) {
-        const chromiumPath = process.env.IS_LOCAL ? executablePath() : await chromium.executablePath();
+        const chromiumPath = process.env.LOCAL_CHROME_PATH
+            ? process.env.LOCAL_CHROME_PATH
+            : await chromium.executablePath();
         const options = {
-            args: process.env.IS_LOCAL ? process.env.BROWSER_ARGS?.split(',') ?? ['--no-sandbox'] : chromium.args,
+            args: process.env.LOCAL_CHROME_PATH
+                ? process.env.BROWSER_ARGS?.split(',') ?? ['--no-sandbox']
+                : chromium.args,
             defaultViewport: chromium.defaultViewport,
             executablePath: chromiumPath,
             headless: chromium.headless as boolean,
             ...pdfGenerationRequest.browserOptions
         };
-
         return await puppeteer.launch(options);
     }
 }
