@@ -53,7 +53,6 @@ export default class PdfGenerationService {
             headless: chromium.headless as boolean,
             ...pdfGenerationRequest.browserOptions
         };
-
         return await puppeteer.launch(options);
     }
 }
