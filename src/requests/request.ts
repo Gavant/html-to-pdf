@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import { Protocol } from 'puppeteer-core';
+import { CookieParam } from 'puppeteer-core';
 
 import { DEFAULT_TEMP_PATH } from '../constants/pdf';
 import { PdfGenerationRequestBody, PDFRequestOptions } from './adapter';
@@ -11,7 +11,7 @@ export default class PdfGenerationRequest {
     path: string;
     storageFilePath: string;
     fileName?: string;
-    cookies?: Protocol.Network.CookieParam[];
+    cookies?: CookieParam[];
     pdfOptions?: Partial<PDFRequestOptions['pdfOptions']>;
     browserOptions?: Partial<PDFRequestOptions['browserOptions']>;
     storageOptions?: Partial<PDFRequestOptions['storageOptions']>;
