@@ -14,18 +14,18 @@ export default class PdfGenerationService {
         return new URL(targetUrl).origin;
     }
 
-    private normalizeCookies(
-        cookies: CookieParam[] | undefined,
-        targetUrl: string
-    ) {
+    private normalizeCookies(cookies: CookieParam[] | undefined, targetUrl: string) {
         if (!cookies || cookies.length === 0) return undefined;
 
         const origin = this.getTargetOrigin(targetUrl);
         return cookies.map((cookie) => {
+            type CookieWithOptionalUrl = CookieParam & { url?: string };
+
             // Puppeteer requires either `url` or `domain` (plus path) to scope a cookie.
             // The calling API often omits these, so we default to the target origin.
             const hasDomain = typeof cookie.domain === 'string' && cookie.domain.length > 0;
-            const hasUrl = typeof (cookie as any).url === 'string' && (cookie as any).url.length > 0;
+            const cookieUrl = (cookie as CookieWithOptionalUrl).url;
+            const hasUrl = typeof cookieUrl === 'string' && cookieUrl.length > 0;
 
             if (hasDomain || hasUrl) return cookie;
 
@@ -46,10 +46,7 @@ export default class PdfGenerationService {
         console.log('Browser launched');
         const page = await browser.newPage();
 
-        const normalizedCookies = this.normalizeCookies(
-            pdfGenerationRequest.cookies,
-            pdfGenerationRequest.url
-        );
+        const normalizedCookies = this.normalizeCookies(pdfGenerationRequest.cookies, pdfGenerationRequest.url);
 
         if (normalizedCookies) {
             await page.setCookie(...normalizedCookies);
@@ -65,7 +62,7 @@ export default class PdfGenerationService {
         await page.goto(pdfGenerationRequest.url, { waitUntil: 'networkidle0' });
         console.log(`Puppeteer visited page located at ${pdfGenerationRequest.url}`);
         const options = { ...htmlToPdfPrintOptions, ...pdfGenerationRequest.pdfOptions };
-        await report.pdfPage(page as any, {
+        await report.pdfPage(page, {
             path: pdfGenerationRequest.localFilePath,
             ...options
         });

@@ -41,7 +41,7 @@ export default class PdfGenerationRequestAdapter {
             fileName: this.requestBody.fileName ?? this.requestBody.filename,
             secure: this.requestBody.secure,
             cookies: this.requestBody.cookies,
-            options: (this.requestBody.options ?? {}) as any,
+            options: this.requestBody.options ?? undefined,
             storageFilePath: this.requestBody.storageFilePath
         });
     }
