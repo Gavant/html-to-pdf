@@ -1,4 +1,4 @@
-import puppeteer, { CookieParam, PDFOptions } from 'puppeteer-core';
+import puppeteer, { CookieParam, PDFOptions, Page } from 'puppeteer-core';
 import report from 'puppeteer-report';
 
 import chromium from '@sparticuz/chromium';
@@ -10,6 +10,97 @@ const DEFAULT_PRINT_OPTIONS: PDFOptions = {
     format: 'a4'
 };
 export default class PdfGenerationService {
+    private redactUrl(rawUrl: string) {
+        try {
+            const url = new URL(rawUrl);
+            const sensitiveKey = /(token|sig|signature|secret|password|pass|key|auth|authorization|session|cookie|x-amz-signature|x-amz-credential)/i;
+            for (const [key] of url.searchParams) {
+                if (sensitiveKey.test(key)) {
+                    url.searchParams.set(key, 'REDACTED');
+                }
+            }
+            return url.toString();
+        } catch {
+            return rawUrl;
+        }
+    }
+
+    private redactHeaders(headers: Record<string, string>) {
+        const redacted: Record<string, string> = {};
+        const sensitiveKey = /^(authorization|cookie|set-cookie|x-api-key|proxy-authorization)$/i;
+        for (const [key, value] of Object.entries(headers)) {
+            redacted[key] = sensitiveKey.test(key) ? 'REDACTED' : value;
+        }
+        return redacted;
+    }
+
+    private attachNetworkDebugging(
+        page: Page,
+        opts: { logHeaders: boolean }
+    ) {
+        const startedAt = Date.now();
+        const shouldLog = (resourceType: string) => {
+            return resourceType === 'document' || resourceType === 'xhr' || resourceType === 'fetch';
+        };
+
+        page.on('request', (request) => {
+            const resourceType = request.resourceType();
+            if (!shouldLog(resourceType) && !request.isNavigationRequest()) return;
+
+            const payload: Record<string, unknown> = {
+                t: Date.now() - startedAt,
+                type: 'request',
+                method: request.method(),
+                url: this.redactUrl(request.url()),
+                resourceType,
+                isNavigationRequest: request.isNavigationRequest(),
+                redirectChain: request.redirectChain().length
+            };
+
+            if (opts.logHeaders) {
+                payload.headers = this.redactHeaders(request.headers() as Record<string, string>);
+            }
+
+            console.log('[net]', payload);
+        });
+
+        page.on('response', async (response) => {
+            const request = response.request();
+            const resourceType = request.resourceType();
+            if (!shouldLog(resourceType) && !request.isNavigationRequest()) return;
+
+            const headers = response.headers() as Record<string, string>;
+            const payload: Record<string, unknown> = {
+                t: Date.now() - startedAt,
+                type: 'response',
+                status: response.status(),
+                url: this.redactUrl(response.url()),
+                resourceType,
+                fromCache: response.fromCache(),
+                contentType: headers['content-type']
+            };
+
+            if (opts.logHeaders) {
+                payload.headers = this.redactHeaders(headers);
+            }
+
+            console.log('[net]', payload);
+        });
+
+        page.on('requestfailed', (request) => {
+            const failure = request.failure();
+            const payload: Record<string, unknown> = {
+                t: Date.now() - startedAt,
+                type: 'requestfailed',
+                method: request.method(),
+                url: this.redactUrl(request.url()),
+                resourceType: request.resourceType(),
+                errorText: failure?.errorText
+            };
+            console.log('[net]', payload);
+        });
+    }
+
     private getTargetOrigin(targetUrl: string) {
         return new URL(targetUrl).origin;
     }
@@ -45,6 +136,14 @@ export default class PdfGenerationService {
         const browser = await this.launchBrowser(pdfGenerationRequest);
         console.log('Browser launched');
         const page = await browser.newPage();
+
+        const enableNetworkDebug = pdfGenerationRequest.debugNetwork === true || pdfGenerationRequest.debug === true;
+        if (enableNetworkDebug) {
+            this.attachNetworkDebugging(page, { logHeaders: pdfGenerationRequest.debugNetworkHeaders === true });
+            console.log('[net] network debugging enabled', {
+                logHeaders: pdfGenerationRequest.debugNetworkHeaders === true
+            });
+        }
 
         const normalizedCookies = this.normalizeCookies(pdfGenerationRequest.cookies, pdfGenerationRequest.url);
 

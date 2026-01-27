@@ -8,6 +8,9 @@ import PdfGenerationRequest from './request';
 export type PDFRequestBrowserOptions = Record<string, unknown>;
 
 export type PDFRequestOptions = {
+    debug?: boolean;
+    debugNetwork?: boolean;
+    debugNetworkHeaders?: boolean;
     pdfOptions: Partial<PDFOptions>;
     browserOptions: Partial<PDFRequestBrowserOptions>;
     storageOptions?: {

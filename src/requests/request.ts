@@ -15,6 +15,9 @@ export default class PdfGenerationRequest {
     pdfOptions?: Partial<PDFRequestOptions['pdfOptions']>;
     browserOptions?: Partial<PDFRequestOptions['browserOptions']>;
     storageOptions?: Partial<PDFRequestOptions['storageOptions']>;
+    debug?: boolean;
+    debugNetwork?: boolean;
+    debugNetworkHeaders?: boolean;
 
     constructor(args: PdfGenerationRequestBody) {
         this.url = args.url;
@@ -27,6 +30,10 @@ export default class PdfGenerationRequest {
         this.pdfOptions = args.options?.pdfOptions ?? {};
         this.browserOptions = args.options?.browserOptions ?? {};
         this.storageOptions = args.options?.storageOptions ?? {};
+
+                this.debug = args.options?.debug ?? false;
+                this.debugNetwork = args.options?.debugNetwork ?? false;
+                this.debugNetworkHeaders = args.options?.debugNetworkHeaders ?? false;
     }
 
     get localFilePath() {
