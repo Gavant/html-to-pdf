@@ -10,6 +10,11 @@ const DEFAULT_PRINT_OPTIONS: PDFOptions = {
     format: 'a4'
 };
 export default class PdfGenerationService {
+    private looksLikeAuthPage(finalUrl: string, pageTitle: string) {
+        const authPattern = /(login|sign[- ]?in|unauthorized|forbidden|access denied)/i;
+        return authPattern.test(finalUrl) || authPattern.test(pageTitle);
+    }
+
     private redactUrl(rawUrl: string) {
         try {
             const url = new URL(rawUrl);
@@ -158,8 +163,37 @@ export default class PdfGenerationService {
             cookieCount: normalizedCookies?.length ?? 0
         });
 
-        await page.goto(pdfGenerationRequest.url, { waitUntil: 'networkidle0' });
-        console.log(`Puppeteer visited page located at ${pdfGenerationRequest.url}`);
+        const navigationResponse = await page.goto(pdfGenerationRequest.url, { waitUntil: 'networkidle0' });
+        const finalUrl = page.url();
+        const pageTitle = await page.title();
+        const status = navigationResponse?.status();
+
+        console.log('Navigation complete', {
+            requestedUrl: pdfGenerationRequest.url,
+            finalUrl,
+            status,
+            title: pageTitle
+        });
+
+        if (this.looksLikeAuthPage(finalUrl, pageTitle)) {
+            console.warn('Possible auth/permission page detected while rendering PDF', {
+                requestedUrl: pdfGenerationRequest.url,
+                finalUrl,
+                status,
+                title: pageTitle
+            });
+        }
+
+        if (pdfGenerationRequest.debug === true) {
+            try {
+                const bodyTextPreview = await page.evaluate(() => (document.body?.innerText ?? '').slice(0, 300));
+                console.log('[debug] page body preview', { bodyTextPreview });
+            } catch (error) {
+                console.log('[debug] unable to read page body preview', { error });
+            }
+        }
+
+        console.log(`Puppeteer visited page located at ${finalUrl}`);
         const options = { ...htmlToPdfPrintOptions, ...pdfGenerationRequest.pdfOptions };
         await report.pdfPage(page, {
             path: pdfGenerationRequest.localFilePath,
