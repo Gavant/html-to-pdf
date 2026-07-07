@@ -9,3 +9,7 @@ LOCAL_CHROME_PATH="/PATH_TO_ADDON/html-to-pdf/node_modules/puppeteer/.local-chro
 ```
 
 Releases are handled by `release-it` and changelog is automatically generated using `auto-changelog`.
+
+## API
+
+A header and footer can be added to each pdf page by adding elements with IDs of `#header` and `#footer` respectively.
