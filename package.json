@@ -1,6 +1,6 @@
 {
     "name": "@gavant/html-to-pdf",
-    "version": "0.3.2",
+    "version": "0.3.3",
     "main": "./dist/main.js",
     "exports": {
         ".": "./dist/main.js",
@@ -22,7 +22,7 @@
         "eslint-plugin-node": "^11.1.0",
         "eslint-plugin-prettier": "^4.0.0",
         "prettier": "^2.6.1",
-        "puppeteer": "^24.36.0",
+        "puppeteer": "24.43.1",
         "qunit": "^2.14.0",
         "qunit-dom": "^1.6.0",
         "release-it": "^19.2.4",
@@ -42,8 +42,8 @@
     "dependencies": {
         "@aws-sdk/client-s3": "^3.56.0",
         "@aws-sdk/s3-request-presigner": "^3.120.0",
-        "@sparticuz/chromium": "^143.0.4",
-        "puppeteer-core": "^24.36.0",
+        "@sparticuz/chromium": "148.0.0",
+        "puppeteer-core": "24.43.1",
         "puppeteer-report": "^3.0.2"
     },
     "publishConfig": {
